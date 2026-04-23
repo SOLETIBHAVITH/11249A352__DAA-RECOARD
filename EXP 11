@@ -1,0 +1,49 @@
+#include <stdio.h>
+#define V 5
+
+void graphColoring(int graph[V][V]) {
+    int result[V];
+
+    for (int i = 0; i < V; i++)
+        result[i] = -1;
+
+    result[0] = 0;
+
+    int available[V];
+    
+    for (int u = 1; u < V; u++) {
+
+        for (int i = 0; i < V; i++)
+            available[i] = 1;
+
+        for (int v = 0; v < V; v++) {
+            if (graph[u][v] && result[v] != -1)
+                available[result[v]] = 0;
+        }
+
+        int color;
+        for (color = 0; color < V; color++) {
+            if (available[color])
+                break;
+        }
+
+        result[u] = color;
+    }
+
+    printf("Vertex   Color\n");
+    for (int i = 0; i < V; i++)
+        printf("%d        %d\n", i, result[i]);
+}
+
+int main() {
+    int graph[V][V] = {
+        {0, 1, 1, 1, 0},
+        {1, 0, 1, 0, 0},
+        {1, 1, 0, 1, 0},
+        {1, 0, 1, 0, 1},
+        {0, 0, 0, 1, 0}
+    };
+
+    graphColoring(graph);
+    return 0;
+}
